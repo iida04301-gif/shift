@@ -1464,6 +1464,8 @@ function startAutoRefresh(){
   document.addEventListener('visibilitychange', async ()=>{
     if(document.visibilityState !== 'visible') return;
     if(!staffLoaded || document.getElementById('modalOverlay')) return;
+    // 開きっぱなしのまま日付が変わっていたら、ページを読み直して「今日」の月・ロック状態に合わせる
+    if(new Date().toDateString() !== today.toDateString()){ location.reload(); return; }
     if(Date.now() - lastLoadedAt < 30000) return;
     const y = state.year, m = state.month;
     const snapshot = () => JSON.stringify([state.staff, state.settings, state.shifts, state.holidays]);
